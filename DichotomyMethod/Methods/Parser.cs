@@ -46,7 +46,8 @@ namespace DichotomyMethod
             var lineSeries = new LineSeries
             {
                 Title = "f(x)",
-                Color = OxyColor.FromRgb(0, 0, 255) // Синий цвет линии
+                Color = OxyColor.FromRgb(0, 0, 255), // Синий цвет линии
+                LineStyle = LineStyle.Dot
             };
 
             // Добавляем все точки в серию

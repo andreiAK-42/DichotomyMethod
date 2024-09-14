@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DichotomyMethod", "DichotomyMethod\DichotomyMethod.csproj", "{1AD14138-8AA6-4577-AE90-CD3CB7DA92DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AD14138-8AA6-4577-AE90-CD3CB7DA92DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD14138-8AA6-4577-AE90-CD3CB7DA92DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD14138-8AA6-4577-AE90-CD3CB7DA92DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD14138-8AA6-4577-AE90-CD3CB7DA92DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {411949FD-058F-46C6-AC38-F8CADAABDEAD}
+	EndGlobalSection
+EndGlobal

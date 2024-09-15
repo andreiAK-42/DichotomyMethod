@@ -1,13 +1,5 @@
 ﻿using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DichotomyMethod
 {
@@ -16,14 +8,21 @@ namespace DichotomyMethod
     /// </summary>
     public partial class MainWindow : Window
     {
+        Graph Graph { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            Graph = new Graph();
         }
 
         private void buttonSolve_Click(object sender, RoutedEventArgs e)
         {
             Graph.GetFunction(this, tbFunction.Text);
+        }
+
+        private void buttonDichotomy_Solve_Click(object sender, RoutedEventArgs e)
+        {
+            Graph.DichotomyMethod(this);
         }
     }
 }

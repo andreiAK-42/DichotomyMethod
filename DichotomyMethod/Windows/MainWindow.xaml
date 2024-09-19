@@ -93,8 +93,8 @@
             <Button x:Name="buttonSolve" Style="{DynamicResource RoundedButtonStyle}" Content="Построить функцию" HorizontalAlignment="Right" Height="41" Margin="0,21,10,0" VerticalAlignment="Top" Width="209" BorderBrush="#FF508A48" Background="#FF2ACC34" Foreground="White" FontFamily="Verdana" FontSize="18" Cursor="Pen" RenderTransformOrigin="0,0" Click="buttonSolve_Click" Grid.RowSpan="3"/>
             <Button x:Name="buttonDichotomy_Solve" Style="{DynamicResource RoundedButtonStyle}" Content="Метод дихотомии" HorizontalAlignment="Left" Height="41" Margin="-173,21,0,0" VerticalAlignment="Top" Width="209" BorderBrush="#FF508A48" Background="#FFE84F15" Foreground="White" FontFamily="Verdana" FontSize="18" Cursor="Pen" RenderTransformOrigin="0,0" Grid.RowSpan="3" Click="buttonDichotomy_Solve_Click"/>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="266" Margin="385,48,0,0" VerticalAlignment="Top" Width="369">
-            <oxy:PlotView x:Name="pvGraph" HorizontalAlignment="Center" Height="246" VerticalAlignment="Center" Width="349">
+        <Grid Margin="385,48,46,120">
+            <oxy:PlotView x:Name="pvGraph" Margin="10,10,10,10">
                 <oxy:PlotView.Background>
                     <ImageBrush ImageSource="/Windows/i (4).png"/>
                 </oxy:PlotView.Background>

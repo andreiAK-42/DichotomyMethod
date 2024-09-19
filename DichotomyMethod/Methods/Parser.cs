@@ -1,7 +1,7 @@
 ﻿using org.mariuszgromada.math.mxparser;
 using OxyPlot.Series;
-using OxyPlot;
 using System.Windows;
+using OxyPlot;
 
 namespace DichotomyMethod
 {
@@ -30,8 +30,8 @@ namespace DichotomyMethod
                 StrokeThickness = 2
             };
 
-            medianLine.Points.Add(new DataPoint(-10, 0));
-            medianLine.Points.Add(new DataPoint(10, 0));
+            medianLine.Points.Add(new DataPoint(Convert.ToInt32(window.tbXStart.Text), 0));
+            medianLine.Points.Add(new DataPoint(Convert.ToInt32(window.tbXEnd.Text), 0));
 
             var absicc = new LineSeries
             {
@@ -40,8 +40,8 @@ namespace DichotomyMethod
                 StrokeThickness = 2,
             };
 
-            absicc.Points.Add(new DataPoint(0, 10));
-            absicc.Points.Add(new DataPoint(0, -10));
+            absicc.Points.Add(new DataPoint(0, Convert.ToInt32(window.tbXEnd.Text)));
+            absicc.Points.Add(new DataPoint(0, Convert.ToInt32(window.tbXStart.Text)));
 
 
             // Создаем серию точек графика
@@ -68,11 +68,9 @@ namespace DichotomyMethod
         public void DichotomyMethod(MainWindow window)
         {
             Function func = new Function("f(x) = " + window.tbFunction.Text);
-            org.mariuszgromada.math.mxparser.Expression eA = new org.mariuszgromada.math.mxparser.Expression($"f({window.tba.Text})", func);
-            org.mariuszgromada.math.mxparser.Expression eB = new org.mariuszgromada.math.mxparser.Expression($"f({window.tbb.Text})", func);
 
-            double fa = eA.calculate();
-            double fb = eB.calculate();
+            double fa = SolveFunc(func, window.tba.Text);
+            double fb = SolveFunc(func, window.tbb.Text);
 
             double a = Convert.ToDouble(window.tba.Text);
             double b = Convert.ToDouble(window.tbb.Text);
@@ -86,9 +84,9 @@ namespace DichotomyMethod
             while (b - a > eps)
             {
                 double c = (a + b) / 2;
-                double fc = new org.mariuszgromada.math.mxparser.Expression($"f({c.ToString().Replace(",", ".")})", func).calculate();
+                double fc = SolveFunc(func, c.ToString().Replace(",", "."));
 
-                if (Math.Abs(fc) < eps)
+                if (Math.Abs(fc) == 0)
                 {
                     MessageBox.Show($"Ответ: {c}");
                     return;
@@ -106,6 +104,11 @@ namespace DichotomyMethod
 
             MessageBox.Show($"Ответ: {(a + b) / 2}");
             return;
+        }
+
+        public double SolveFunc(Function function, string x)
+        {
+            return new org.mariuszgromada.math.mxparser.Expression($"f({x})", function).calculate();
         }
     }
 }

@@ -76,8 +76,8 @@
             <TextBlock x:Name="labela" Margin="0,59,179,0" TextWrapping="Wrap" Text="a = " FontFamily="Verdana" FontSize="22" HorizontalAlignment="Right" Width="57" Height="24" VerticalAlignment="Top"/>
             <TextBlock x:Name="labelb" TextWrapping="Wrap" Text="b = " FontFamily="Verdana" FontSize="22" HorizontalAlignment="Right" Width="54" Height="22" VerticalAlignment="Top" Margin="0,105,182,0" />
             <TextBox x:Name="tbFunction" HorizontalAlignment="Left" Height="31" Margin="81,12,0,0" TextWrapping="Wrap" Text="Функция" VerticalAlignment="Top" Width="155" FontSize="22"/>
-            <TextBox x:Name="tba" HorizontalAlignment="Left" Height="31" Margin="81,57,0,0" TextWrapping="Wrap" Text="X Min" VerticalAlignment="Top" Width="155" FontSize="22"/>
-            <TextBox x:Name="tbb" HorizontalAlignment="Left" Height="31" Margin="81,105,0,0" TextWrapping="Wrap" Text="X Max" VerticalAlignment="Top" Width="155" FontSize="22"/>
+            <TextBox x:Name="tba" HorizontalAlignment="Left" Height="31" Margin="81,57,0,0" TextWrapping="Wrap" Text="Min" VerticalAlignment="Top" Width="155" FontSize="22"/>
+            <TextBox x:Name="tbb" HorizontalAlignment="Left" Height="31" Margin="81,105,0,0" TextWrapping="Wrap" Text="Max" VerticalAlignment="Top" Width="155" FontSize="22"/>
             <TextBox x:Name="tbXEnd" HorizontalAlignment="Left" Height="31" Margin="166,160,0,0" TextWrapping="Wrap" Text="Max" VerticalAlignment="Top" Width="70" FontSize="22"/>
             <TextBox x:Name="tbXStart" HorizontalAlignment="Left" Height="31" Margin="10,160,0,0" TextWrapping="Wrap" Text="Min" VerticalAlignment="Top" Width="70" FontSize="22"/>
             <Label Content="↔" HorizontalAlignment="Center" Height="54" Margin="0,148,0,0" VerticalAlignment="Top" Width="42" FontFamily="Verdana" FontSize="36"/>
@@ -94,11 +94,7 @@
             <Button x:Name="buttonDichotomy_Solve" Style="{DynamicResource RoundedButtonStyle}" Content="Метод дихотомии" HorizontalAlignment="Left" Height="41" Margin="-173,21,0,0" VerticalAlignment="Top" Width="209" BorderBrush="#FF508A48" Background="#FFE84F15" Foreground="White" FontFamily="Verdana" FontSize="18" Cursor="Pen" RenderTransformOrigin="0,0" Grid.RowSpan="3" Click="buttonDichotomy_Solve_Click"/>
         </Grid>
         <Grid Margin="385,48,46,120">
-            <oxy:PlotView x:Name="pvGraph" Margin="10,10,10,10">
-                <oxy:PlotView.Background>
-                    <ImageBrush ImageSource="/Windows/i (4).png"/>
-                </oxy:PlotView.Background>
-            </oxy:PlotView>
+            <oxy:PlotView x:Name="pvGraph" Margin="10,10,10,10" Background="{x:Null}"/>
         </Grid>
     </Grid>
 </Window>

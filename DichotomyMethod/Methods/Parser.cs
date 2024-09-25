@@ -154,7 +154,6 @@ namespace DichotomyMethod
                     double eps = Convert.ToDouble(window.tbe.Text);
                     double a = Graphic[counterI - 2].X;
                     double b = Graphic[counterI].X;
-                    int counter = 0;
 
                     while (b - a > eps)
                     {
@@ -174,7 +173,6 @@ namespace DichotomyMethod
                             a = c;
                             fa = fc;
                         }
-                        counter++;  
                     }
                     result += $"X: = {Math.Round((a + b) / 2, window.tbe.Text.Length - 2)}\n";
                 }               

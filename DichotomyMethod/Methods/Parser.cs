@@ -1,21 +1,27 @@
-﻿using org.mariuszgromada.math.mxparser;
+﻿using OxyPlot;
 using OxyPlot.Series;
 using System.Windows;
-using OxyPlot;
+using DichotomyMethod.Methods;
+using org.mariuszgromada.math.mxparser;
 
 namespace DichotomyMethod
 {
     public class Graph
     {
         private List<DataPoint> Graphic = new List<DataPoint>();
+        private string CurrentFunc = "";
 
         public void GetFunction(MainWindow window, string function)
         {
             Graphic.Clear();
 
-            Function func = new Function("f(x) = " +  function);
+            Function func = new Function("f(x) = " + function);
 
-            for (int counterI = Convert.ToInt32(window.tbXStart.Text);  counterI <= Convert.ToInt32(window.tbXEnd.Text); ++counterI)
+            CurrentFunc = function;
+
+            var intervalParse = SafeInput.GetSafeInterval(window);
+
+            for (int counterI = intervalParse.Item1 - 1; counterI <= intervalParse.Item2; ++counterI)
             {
                 org.mariuszgromada.math.mxparser.Expression e1 = new org.mariuszgromada.math.mxparser.Expression($"f({counterI})", func);
                 Graphic.Add(new DataPoint(counterI, e1.calculate()));
@@ -30,8 +36,8 @@ namespace DichotomyMethod
                 StrokeThickness = 2
             };
 
-            medianLine.Points.Add(new DataPoint(Convert.ToInt32(window.tbXStart.Text), 0));
-            medianLine.Points.Add(new DataPoint(Convert.ToInt32(window.tbXEnd.Text), 0));
+            medianLine.Points.Add(new DataPoint(intervalParse.Item1, 0));
+            medianLine.Points.Add(new DataPoint(intervalParse.Item2, 0));
 
             var absicc = new LineSeries
             {
@@ -40,8 +46,8 @@ namespace DichotomyMethod
                 StrokeThickness = 2,
             };
 
-            absicc.Points.Add(new DataPoint(0, Convert.ToInt32(window.tbXEnd.Text)));
-            absicc.Points.Add(new DataPoint(0, Convert.ToInt32(window.tbXStart.Text)));
+            absicc.Points.Add(new DataPoint(0, intervalParse.Item2));
+            absicc.Points.Add(new DataPoint(0, intervalParse.Item1));
 
 
             // Создаем серию точек графика
@@ -63,23 +69,53 @@ namespace DichotomyMethod
             // Отображаем график
             window.pvGraph.Model = plotModel;
             window.pvGraph.DataContext = plotModel;
-        }      
+
+            SafeInput.ShowMessage($"Количество пересечений функции с осью абсцисс = {SafeInput.CheckNumberIntersections(Graphic)}", MessageBoxImage.Information);
+        }
 
         public void DichotomyMethod(MainWindow window)
         {
+            int numberIntersections = SafeInput.CheckNumberIntersections(Graphic);
+            if (numberIntersections == 0)
+            {
+                SafeInput.ShowMessage("График не пересекает ось абсцисс", MessageBoxImage.Error);
+                return;
+            }
+
+            if (Graphic.Count == 0 || CurrentFunc != window.tbFunction.Text)
+            {
+                SafeInput.ShowMessage("Сначала постройте график функции", MessageBoxImage.Error);
+                return;
+            }
+
+            if (numberIntersections == 1)
+            {
+                SafeInput.ShowMessage($"Результат: {Math.Round(SolveStandartDichotomyMethod(window), window.tbe.Text.Length - 2)}. Других точек пересечения не обнаружено", MessageBoxImage.Information);
+            }
+            else
+            {
+                if (MessageBox.Show($"Результат X = {Math.Round(SolveStandartDichotomyMethod(window), window.tbe.Text.Length - 2)} Найдены другие точки пересечения. Продолжить автоматическое вычисление точек пересечения?",
+                    "Метод дихотомии",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    SolveAutomatDichotomyMethod(window);
+                }
+            }       
+            return;
+        }
+
+        private double SolveStandartDichotomyMethod(MainWindow window)
+        {
             Function func = new Function("f(x) = " + window.tbFunction.Text);
 
-            double fa = SolveFunc(func, window.tba.Text);
-            double fb = SolveFunc(func, window.tbb.Text);
+            var intervalParse = SafeInput.GetSafeIntervalAB(window);
 
-            double a = Convert.ToDouble(window.tba.Text);
-            double b = Convert.ToDouble(window.tbb.Text);
+            double fa = SolveFunc(func, intervalParse.Item1.ToString());
+
+            double a = Convert.ToDouble(intervalParse.Item1);
+            double b = Convert.ToDouble(intervalParse.Item2);
             double eps = Convert.ToDouble(window.tbe.Text);
-
-            if (fa * fb > 0)
-            {
-                throw new ArgumentException("The function must have opposite signs at the endpoints of the interval.");
-            }
 
             while (b - a > eps)
             {
@@ -88,8 +124,7 @@ namespace DichotomyMethod
 
                 if (Math.Abs(fc) == 0)
                 {
-                    MessageBox.Show($"Ответ: {c}");
-                    return;
+                    return c;
                 }
                 else if (fa * fc < 0)
                 {
@@ -101,9 +136,50 @@ namespace DichotomyMethod
                     fa = fc;
                 }
             }
+            return (a + b) / 2;
+        }
 
-            MessageBox.Show($"Ответ: {(a + b) / 2}");
-            return;
+        private void SolveAutomatDichotomyMethod(MainWindow window)
+        {
+            string result = "";
+
+            Function func = new Function("f(x) = " + window.tbFunction.Text);
+
+            for (int counterI = 1; counterI < Graphic.Count; ++counterI)
+            {
+                if ((Graphic[counterI - 1].Y < 0 && Graphic[counterI].Y > 0) || (Graphic[counterI - 1].Y > 0 && Graphic[counterI].Y < 0) || (Graphic[counterI - 1].Y == 0 && Graphic[counterI].Y < 0) || (Graphic[counterI - 1].Y < 0 && Graphic[counterI].Y == 0))
+                {
+                    double fa = SolveFunc(func, Graphic[counterI - 1].X.ToString());
+                    
+                    double eps = Convert.ToDouble(window.tbe.Text);
+                    double a = Graphic[counterI - 2].X;
+                    double b = Graphic[counterI].X;
+                    int counter = 0;
+
+                    while (b - a > eps)
+                    {
+                        double c = (a + b) / 2;
+                        double fc = SolveFunc(func, c.ToString().Replace(",", "."));
+
+                        if (Math.Abs(fc) == 0)
+                        {
+                            break;
+                        }
+                        else if (fa * fc < 0)
+                        {
+                            b = c;
+                        }
+                        else
+                        {
+                            a = c;
+                            fa = fc;
+                        }
+                        counter++;  
+                    }
+                    result += $"X: = {Math.Round((a + b) / 2, window.tbe.Text.Length - 2)}\n";
+                }               
+            }
+            SafeInput.ShowMessage("Результат:\n" + result, MessageBoxImage.Information);
         }
 
         public double SolveFunc(Function function, string x)

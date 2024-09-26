@@ -94,7 +94,7 @@ namespace DichotomyMethod
             }
             else
             {
-                if (MessageBox.Show($"Результат X = {Math.Round(SolveStandartDichotomyMethod(window), window.tbe.Text.Length - 2)} Найдены другие точки пересечения. Продолжить автоматическое вычисление точек пересечения?",
+                if (MessageBox.Show($"Результат X = {Math.Round(SolveStandartDichotomyMethod(window), window.tbe.Text.Length - 2)}\nНайдены другие точки пересечения. Продолжить автоматическое вычисление точек пересечения?",
                     "Метод дихотомии",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -136,7 +136,9 @@ namespace DichotomyMethod
                     fa = fc;
                 }
             }
-            return (a + b) / 2;
+            double resultNumber = Math.Round((a + b) / 2, window.tbe.Text.Length - 2);
+
+            return resultNumber.ToString() == "-0" ? 0 : resultNumber;
         }
 
         private void SolveAutomatDichotomyMethod(MainWindow window)
@@ -174,7 +176,8 @@ namespace DichotomyMethod
                             fa = fc;
                         }
                     }
-                    result += $"X: = {Math.Round((a + b) / 2, window.tbe.Text.Length - 2)}\n";
+                    double resultNumber = Math.Round((a + b) / 2, window.tbe.Text.Length - 2);
+                    result += $"X: = {(resultNumber.ToString() == "-0" ? "0" : resultNumber)}\n";
                 }               
             }
             SafeInput.ShowMessage("Результат:\n" + result, MessageBoxImage.Information);

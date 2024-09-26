@@ -17,7 +17,7 @@ namespace DichotomyMethod.Methods
                 {
                     if (a < b)
                     {
-                        return (int.Parse(window.tbXStart.Text), int.Parse(window.tbXStart.Text));
+                        return (int.Parse(window.tbXStart.Text), int.Parse(window.tbXEnd.Text));
                     }
                     else
                     {

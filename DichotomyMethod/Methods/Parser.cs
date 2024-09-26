@@ -23,8 +23,7 @@ namespace DichotomyMethod
 
             for (int counterI = intervalParse.Item1 - 1; counterI <= intervalParse.Item2; ++counterI)
             {
-                org.mariuszgromada.math.mxparser.Expression e1 = new org.mariuszgromada.math.mxparser.Expression($"f({counterI})", func);
-                Graphic.Add(new DataPoint(counterI, e1.calculate()));
+                Graphic.Add(new DataPoint(counterI, SolveFunc(func, counterI.ToString())));
             }
 
             var plotModel = new PlotModel { Title = "График функции f(x)" };
@@ -48,7 +47,6 @@ namespace DichotomyMethod
 
             absicc.Points.Add(new DataPoint(0, intervalParse.Item2));
             absicc.Points.Add(new DataPoint(0, intervalParse.Item1));
-
 
             // Создаем серию точек графика
             var lineSeries = new LineSeries
